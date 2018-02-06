@@ -6,15 +6,15 @@ class shoppingCart {
     this.db.time = this.db.time || 0;
     this.elements = {
       //TODO provide selectors for:
-      //- product list
-      //- selector where the contents of the cart should be displayed
-      //- the reset button
+      list: document.getElementById("products"),
+      items: document.querySelectorAll("#products li"),
+      result: document.querySelectorAll(".cartresult"),
       totaltarget: document.querySelectorAll(".total-target"),
       cart: document.getElementById("cart"),
-      //- total amount
-      //- total template
+      reset: document.getElementById("reset"),
+      total_template: document.getElementById("total-template"),
       template: document.getElementById("template")
-    }
+    },
     this.init()
   }
   init(){
@@ -22,16 +22,25 @@ class shoppingCart {
     var card = this.elements.template
     for (var i in database ) {
       var element = card.cloneNode(true);
-      //TODO here we have clone our template lets remove the id first and rmove display none class
+      console.log(element);
+      element.removeAttribute("id"),
 
-      //TODO fill the element with the image from the database and add the name of the product to the title
+      element.classList.remove('d-none'),
       
-      //TODO lets put in the footer the shipping costs and delivery time
+      element.querySelector(".card-img-top").src = database[i].image,
 
-      //TODO now we take the  button and fill it with all our data to use this for the remove action
+      element.querySelector(".card-title").prepend(i);
 
-      // Fade-in effect
-      // this removes the faded class with a timeout from all divs - wooosh!
+      var s = document.createElement("small");
+      s.classList.add("text-muted"),
+      s.innerHTML = `shipping: ${database[i].shipping}&euro; <br> delivery: ${database[i].delivery}d`,
+      element.querySelector(".card-footer").appendChild(s);
+      var a = element.querySelector(".btn-primary");
+      a.dataset.name = i,
+      a.dataset.delivery = database[i].delivery,
+      a.dataset.shipping = database[i].shipping,
+      a.dataset.price = database[i].price,
+      this.elements.list.appendChild(element);
       var divs = document.querySelectorAll('#products > div');
       var time = 0;
       for (let div of divs) {
