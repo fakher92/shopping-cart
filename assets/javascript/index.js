@@ -38,7 +38,9 @@ class shoppingCart {
       a.dataset.name = i,
       a.dataset.delivery = database[i].delivery,
       a.dataset.shipping = database[i].shipping,
-      a.dataset.price = database[i].price,
+            a.dataset.price = database[i].price,
+      // if(window.location.search.substr(1) === "lang=en"){
+      //     }
       this.elements.list.appendChild(element);
       var divs = document.querySelectorAll('#products > div');
       var time = 0;
@@ -166,3 +168,22 @@ class shoppingCart {
   }
 }
 var instaceOfCart = new shoppingCart();
+
+
+// When the user scrolls down 20px from the top of the document, show the button
+window.onscroll = function() {scrollFunction()};
+
+function scrollFunction() {
+    if (document.body.scrollTop > 100 || document.documentElement.scrollTop > 100) {
+        document.getElementById("btn-top").style.opacity = 1;
+    } else {
+        document.getElementById("btn-top").style.opacity = 0;
+    }
+}
+
+// When the user clicks on the button, scroll to the top of the document
+function topFunction() {
+    $("body,html").animate({
+            scrollTop: 0
+        }, 800)
+}
