@@ -22,7 +22,6 @@ class shoppingCart {
     var card = this.elements.template
     for (var i in database ) {
       var element = card.cloneNode(true);
-      console.log(element);
       element.removeAttribute("id"),
 
       element.classList.remove('d-none'),
@@ -79,7 +78,8 @@ class shoppingCart {
     for (let i = 0; i < this.db.items.length; i++){
       if (this.db.items[i].name == itemName){
         return i
-      }
+      } 
+        
     }
   }
   updateCart(item, remove = false){
@@ -139,11 +139,16 @@ class shoppingCart {
 
     var cart = document.createElement('div')
     this.db.items.forEach( item => {
-      //TODO create a list item, add bootstrap classes
-      //fill it with a bootstrap badge span which shows the count, the name, the price, the total and the remove button
-      // here yo go
-      cart.appendChild(element);
-    })
+      var element = document.createElement("li");
+      element.classList += "list-group-item d-flex justify-content-between align-items-center ",
+      element.innerHTML = `<span class="badge badge-info badge-pill mr-2">${item.count} </span>  ${item.name} - ${item.price}&euro; <span class="ml-auto mr-3 font-weight-bold">${(item.price * item.count).toFixed(2)}&euro;</span>`;
+      var s = document.createElement("button");
+      s.classList.add("btn", "btn-sm", "btn-danger"),
+      s.dataset.name = item.name,
+      s.innerHTML = "<i class='fa fa-close pointer-events-none'></i>",
+      element.appendChild(s)
+      cart.appendChild(element)
+    });
     for (let i = 0; i < this.elements.result.length; i++){
       this.elements.result[i].innerHTML = cart.innerHTML
     }
@@ -152,7 +157,10 @@ class shoppingCart {
     var ttemplate = this.elements.total_template
     for (let i = 0; i < this.elements.totaltarget.length; i++){
       ttemplate = ttemplate.cloneNode(true);
-      // here yo go
+      ttemplate.classList.remove("d-none"),
+      ttemplate.querySelector(".total").innerHTML = this.db.total ? this.db.total.toFixed(2) : 0,
+      ttemplate.querySelector(".delivery").innerHTML = this.db.delivery ? this.db.delivery.toFixed(0) : 0,
+      ttemplate.querySelector(".shipping").innerHTML = this.db.shipping ? this.db.shipping.toFixed(0) : 0,
       this.elements.totaltarget[i].innerHTML = ttemplate.innerHTML
     }
   }
